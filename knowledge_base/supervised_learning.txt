@@ -1,0 +1,1 @@
+Supervised learning is a machine learning paradigm where algorithms learn from labeled training data. In this approach, the algorithm is provided with input-output pairs and learns to map inputs to the correct outputs. Common supervised learning algorithms include linear regression, logistic regression, support vector machines, decision trees, random forests, and neural networks.

@@ -1,0 +1,1 @@
+Neural networks are computational models inspired by the human brain's structure and function. They consist of interconnected nodes (neurons) organized in layers that process information. A typical neural network has an input layer, one or more hidden layers, and an output layer. Each connection between neurons has a weight that adjusts during learning.
