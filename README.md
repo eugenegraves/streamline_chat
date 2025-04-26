@@ -9,6 +9,7 @@ This repository contains a Retrieval-Augmented Generation (RAG) pipeline that us
 - Generates answers using Hugging Face's GPT-2 model
 - Provides source attribution for answers
 - Supports interactive query mode
+- Exposes the RAG pipeline through a FastAPI REST API
 
 ## Requirements
 
@@ -25,6 +26,7 @@ streamlit==1.26.0
 python-dotenv==1.0.0
 torch>=1.10.0
 huggingface-hub==0.19.4
+requests>=2.28.0
 ```
 
 Install the requirements with:
@@ -33,7 +35,7 @@ Install the requirements with:
 pip install -r requirements.txt
 ```
 
-## Usage
+## Command Line Usage
 
 ### Command Line Interface
 
@@ -56,6 +58,56 @@ python rag_pipeline.py
 
 Then you can enter questions interactively.
 
+## API Usage
+
+### Starting the API Server
+
+To start the FastAPI server:
+
+```bash
+python api.py
+```
+
+This will start the server on http://0.0.0.0:8000. You can access the API documentation at http://localhost:8000/docs.
+
+### API Endpoints
+
+- `GET /`: Root endpoint with API information
+- `POST /query`: Process a question using the RAG pipeline
+
+Example request to `/query`:
+
+```json
+{
+  "question": "What are neural networks?",
+  "max_new_tokens": 150
+}
+```
+
+Example response:
+
+```json
+{
+  "answer": "Neural networks are computing systems inspired by the biological neural networks that constitute animal brains...",
+  "sources": [
+    "Source 1: data/neural_networks.txt"
+  ]
+}
+```
+
+### Using the Client Script
+
+A client script is provided to interact with the API:
+
+```bash
+python client.py --question "What are neural networks?" --max-new-tokens 150
+```
+
+Arguments:
+- `--question`: The question to ask (required)
+- `--max-new-tokens`: Maximum number of tokens to generate (default: 150)
+- `--url`: The base URL of the API (default: http://localhost:8000)
+
 ## Components
 
 1. **Document Loading**: Loads text documents from the specified directory.
@@ -74,6 +126,11 @@ Then you can enter questions interactively.
    - Passes the context and query to the language model
    - Returns a generated answer with source information
 
+5. **FastAPI Application**:
+   - Exposes the RAG pipeline as a REST API
+   - Provides API documentation with Swagger UI
+   - Handles loading the pipeline at startup
+
 ## Examples
 
 Example query about neural networks:
@@ -82,10 +139,16 @@ Example query about neural networks:
 python rag_pipeline.py --query "What are neural networks and how do they work?" --max_new_tokens 150
 ```
 
-Example query about RAG:
+Example API query using curl:
 
 ```bash
-python rag_pipeline.py --query "What is Retrieval-Augmented Generation (RAG)?" --max_new_tokens 200
+curl -X 'POST' \
+  'http://localhost:8000/query' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "question": "What is Retrieval-Augmented Generation (RAG)?",
+  "max_new_tokens": 200
+}'
 ```
 
 ## Adding Your Own Documents
