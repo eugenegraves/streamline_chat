@@ -10,6 +10,7 @@ This repository contains a Retrieval-Augmented Generation (RAG) pipeline that us
 - Provides source attribution for answers
 - Supports interactive query mode
 - Exposes the RAG pipeline through a FastAPI REST API
+- Includes a user-friendly Streamlit web interface
 
 ## Requirements
 
@@ -108,6 +109,34 @@ Arguments:
 - `--max-new-tokens`: Maximum number of tokens to generate (default: 150)
 - `--url`: The base URL of the API (default: http://localhost:8000)
 
+## Streamlit Web Interface
+
+A user-friendly web interface is available through Streamlit:
+
+### Starting the Streamlit App
+
+```bash
+streamlit run streamlit_app.py
+```
+
+This will start the Streamlit app on http://localhost:8501 by default.
+
+### Features of the Streamlit App
+
+- Simple text input for questions
+- Configuration options in the sidebar
+- Displays answers with source attribution
+- Keeps a history of previous questions and answers
+- Shows loading indicator during processing
+- Error handling for API connection issues
+
+### Using the Streamlit App
+
+1. Start the FastAPI server: `python api.py`
+2. In a separate terminal, start the Streamlit app: `streamlit run streamlit_app.py`
+3. Open your browser to http://localhost:8501
+4. Enter your question and click "Submit Question"
+
 ## Components
 
 1. **Document Loading**: Loads text documents from the specified directory.
@@ -130,6 +159,12 @@ Arguments:
    - Exposes the RAG pipeline as a REST API
    - Provides API documentation with Swagger UI
    - Handles loading the pipeline at startup
+
+6. **Streamlit Web Interface**:
+   - Provides a user-friendly interface for asking questions
+   - Communicates with the FastAPI backend
+   - Displays answers and sources in a readable format
+   - Maintains a session history of questions and answers
 
 ## Examples
 
